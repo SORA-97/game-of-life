@@ -6,6 +6,7 @@ class MyClass:
         self.grid = self.set_grid()
         self.copied_grid = list(self.grid)
         self.speed = MIDDLE_SPEED
+        self.generation = 0
     
     def set_grid(self):
         return [[DEATH for _ in range(COLS)] for _ in range(ROWS)]
@@ -15,6 +16,9 @@ class MyClass:
     
     def get_speed(self):
         return self.speed
+    
+    def reset_generation(self):
+        self.generation = 0
     
     def speed_up(self):
         if self.speed == LOW_SPEED:
@@ -44,15 +48,18 @@ class MyClass:
     
     def kill_all(self):
         self.grid = [[DEATH for _ in range(COLS)] for _ in range(ROWS)]
+        self.reset_generation()
     
     def random_spawn(self):
         self.grid = [[LIFE if random.random() < SPAWN_RATE else DEATH for _ in range(COLS)] for _ in range(ROWS)]
+        self.reset_generation()
     
     def copy_grid(self):
         self.copied_grid = list(self.grid)
 
     def paste_grid(self):
         self.grid = list(self.copied_grid)
+        self.reset_generation()
     
     def create_design_codes(self):
         code = []
@@ -85,6 +92,7 @@ class MyClass:
             nr, nc = row + dr, col + dc
             if 0 <= nr < ROWS and 0 <= nc < COLS and self.grid[nr][nc] == LIFE:
                 count += 1
+        
         return count
 
     def move_cells(self):
@@ -97,6 +105,12 @@ class MyClass:
                     new_grid[row][col] = DEATH
 
         self.grid = list(new_grid)
+    
+    def count_generation(self, moving):
+        if moving:
+            self.generation += 1
+        
+        return self.generation
 
     def count_lives(self):
         return sum(row.count(LIFE) for row in self.grid)
