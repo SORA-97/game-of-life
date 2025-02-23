@@ -69,7 +69,8 @@ class GameOfLife:
             self.control_events()
             if self.moving: self.my.move_cells()
             self.draw_grid()
-            self.display_text(f"Lives: {self.my.count_lives()}", TEXT_X, TEXT_Y)
+            self.display_text(f"Generation: {self.my.count_generation(self.moving)}", GENERATION_X, GENERATION_Y)
+            self.display_text(f"Lives: {self.my.count_lives()}", LIVES_X, LIVES_Y)
             pygame.display.flip()
             self.clock.tick(self.my.get_speed())
 

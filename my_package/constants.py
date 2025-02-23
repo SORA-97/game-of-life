@@ -4,7 +4,8 @@ ROWS, COLS = 60, 80  # マス目の数
 CELL_SIZE = WIDTH // COLS  # 1マスのサイズ
 
 # 位置設定
-TEXT_X, TEXT_Y = 10, HEIGHT - 40
+GENERATION_X, GENERATION_Y = 10, HEIGHT - 70
+LIVES_X, LIVES_Y = 10, HEIGHT - 40
 
 # スポーン率設定
 SPAWN_RATE = 0.15
