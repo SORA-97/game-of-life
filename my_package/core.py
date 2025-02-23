@@ -21,34 +21,42 @@ class GameOfLife:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.my.mouse_draw(event.pos)
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                key = event.key
+
+                if key == pygame.K_SPACE:
                     self.moving = not self.moving
-                elif event.key == pygame.K_UP and self.moving:
-                    self.my.speed_up()
-                elif event.key == pygame.K_DOWN and self.moving:
-                    self.my.speed_down()
-                elif event.key == pygame.K_e and not self.moving:
-                    self.my.kill_all()
-                elif event.key == pygame.K_r and not self.moving:
-                    self.my.random_spawn()
-                elif event.key == pygame.K_c and not self.moving:
-                    self.my.copy_grid()
-                elif event.key == pygame.K_v and not self.moving:
-                    self.my.paste_grid()
-                elif event.key == pygame.K_p and not self.moving:
-                    print(f"Code: {self.my.create_design_codes()}")
-                elif event.key == pygame.K_1 and not self.moving:
-                    self.my.draw_design(design.get_gosper_glider_gun())
-                elif event.key == pygame.K_2 and not self.moving:
-                    self.my.draw_design(design.get_lightweight_spaceship())
-                elif event.key == pygame.K_3 and not self.moving:
-                    self.my.draw_design(design.get_middleweight_spaceship())
-                elif event.key == pygame.K_4 and not self.moving:
-                    self.my.draw_design(design.get_heavyweight_spaceship())
-                elif event.key == pygame.K_5 and not self.moving:
-                    self.my.draw_design(design.get_puffers())
-                elif event.key == pygame.K_6 and not self.moving:
-                    self.my.draw_design(design.get_vampire())
+                elif self.moving:
+                    if key == pygame.K_UP:
+                        self.my.speed_up()
+                    elif key == pygame.K_DOWN:
+                        self.my.speed_down()
+
+                elif not self.moving:
+                    actions = {
+                        pygame.K_e: self.my.kill_all,
+                        pygame.K_r: self.my.random_spawn,
+                        pygame.K_c: self.my.copy_grid,
+                        pygame.K_v: self.my.paste_grid,
+                        pygame.K_p: lambda: print(f"Code: {self.my.create_design_codes()}")
+                    }
+                    if key in actions:
+                        actions[key]()
+                        return
+
+                    designs = {
+                        pygame.K_1: design.get_gosper_glider_gun,
+                        pygame.K_2: design.get_lightweight_spaceship,
+                        pygame.K_3: design.get_middleweight_spaceship,
+                        pygame.K_4: design.get_heavyweight_spaceship,
+                        pygame.K_5: design.get_puffers,
+                        pygame.K_6: design.get_vampire,
+                        pygame.K_7: design.get_breadcrumb_grenade,
+                        pygame.K_8: design.get_pentadecathlon,
+                        pygame.K_9: design.get_pulsar,
+                        pygame.K_0: design.get_galaxy,
+                    }
+                    if key in designs:
+                        self.my.draw_design(designs[key]())
 
     def draw_grid(self):
         grid = self.my.get_grid()
