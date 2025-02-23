@@ -80,7 +80,7 @@ class MyClass:
     # 位置指定と回転・反転機能欲しい
     def draw_design(self, code):
         for lr, lc in code:
-            nr, nc = lr + 20, lc + 10
+            nr, nc = lr + 20, lc + 20
             if nr >= ROWS or nc >= COLS:
                 continue
             else:
